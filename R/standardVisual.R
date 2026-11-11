@@ -28,7 +28,7 @@
 #'
 #' @seealso \code{\link{visualize}}, \code{\link{basicVisual}}
 #'
-#' @importFrom ggplot2 qplot geom_bar geom_rect ylab xlab ggplot aes theme element_blank geom_text 
+#' @importFrom ggplot2 qplot geom_bar geom_rect ylab xlab ggplot aes theme element_blank geom_text coord_flip 
 #' @importFrom stats na.omit
 #' @importFrom rlang .data
 #' @export
@@ -141,14 +141,22 @@ ggAggHist <- function(data, vnam) {
   p
 }
 
+# TODO: Flip if x more than 5 categories
 #ggplot2 barplot based on aggregated data.
 #Input should be on the format of the output of 
 #aggregateForBarplot()
 ggAggBarplot <- function(data, vnam) {
+  
+  flip <- length(data$x) > 5
+  
   p <- ggplot(data, aes(x = .data$x, y = .data$y)) +
     geom_bar(stat = "identity") +
     ylab("count") +
     xlab(vnam)
+  
+  if (flip)
+    p <- p + ggplot2::coord_flip()
+
   p
 }
 

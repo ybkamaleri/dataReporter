@@ -95,7 +95,9 @@ basicVisualCFLB <- function(v, vnam, doEval = TRUE) {
     }
   }
   aggrV <- table(v)
-  thisCall <- call("barplot", height = aggrV, main = vnam)
+  # Flip when there are more than 5 categories
+  flip <- length(aggrV) > 5
+  thisCall <- call("barplot", height = aggrV, main = vnam, horiz = flip)
   if (doEval) {
     return(eval(thisCall))
   } else return(deparse(thisCall))
